@@ -48,8 +48,8 @@ class DropdownHeader extends DropdownWidget {
 }
 
 class _DropdownHeaderState extends DropdownState<DropdownHeader> {
-  Widget buildItem(
-      BuildContext context, dynamic title, String bottomS,bool selected, int index) {
+  Widget buildItem(BuildContext context, dynamic title, String bottomS,
+      bool selected, int index) {
     final Color primaryColor = Theme.of(context).primaryColor;
     final Color unselectedColor = Theme.of(context).unselectedWidgetColor;
     final GetItemLabel getItemLabel = widget.getItemLabel;
@@ -66,7 +66,7 @@ class _DropdownHeaderState extends DropdownState<DropdownHeader> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                     new Column(
-                      mainAxisAlignment : MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
                           getItemLabel(title),
@@ -74,14 +74,21 @@ class _DropdownHeaderState extends DropdownState<DropdownHeader> {
                             color: selected ? primaryColor : unselectedColor,
                           ),
                         ),
-                        bottomS != null&& index == 0?Text("$bottomS",style: new TextStyle(
-                          fontSize: 10,
-                          color: selected ? primaryColor : Color.fromRGBO(139, 137, 151, 1),
-                        )):SizedBox(),
+                        bottomS != null && index == 0
+                            ? Text("$bottomS",
+                                style: new TextStyle(
+                                  fontSize: 10,
+                                  color: selected
+                                      ? primaryColor
+                                      : Color.fromRGBO(139, 137, 151, 1),
+                                ))
+                            : SizedBox(),
                       ],
                     ),
                     new Icon(
-                      selected ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      selected
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
                       color: selected ? primaryColor : unselectedColor,
                     )
                   ])))),
@@ -113,12 +120,9 @@ class _DropdownHeaderState extends DropdownState<DropdownHeader> {
   Widget build(BuildContext context) {
     List<Widget> list = [];
 
-    final int activeIndex = _activeIndex;
-    final List<dynamic> titles = widget.titles;
-    final double height = widget.height;
-    final String bottomString =widget.bottomString;
     for (int i = 0, c = widget.titles.length; i < c; ++i) {
-      list.add(buildItem(context, titles[i],bottomString, i == activeIndex, i));
+      list.add(buildItem(context, widget.titles[i], widget.bottomString,
+          i == _activeIndex, i));
     }
 
     list = list.map((Widget widget) {
@@ -139,7 +143,7 @@ class _DropdownHeaderState extends DropdownState<DropdownHeader> {
           child: new Row(
             children: list,
           ),
-          height: height),
+          height: widget.height),
     );
   }
 
