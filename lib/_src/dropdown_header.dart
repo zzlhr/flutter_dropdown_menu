@@ -30,13 +30,13 @@ class DropdownHeader extends DropdownWidget {
 
   DropdownHeader(
       {@required this.titles,
-      this.activeIndex,
-      DropdownMenuController controller,
-      this.onTap,
-      Key key,
-      this.height: 46.0,
-      this.bottomString,
-      GetItemLabel getItemLabel})
+        this.activeIndex,
+        DropdownMenuController controller,
+        this.onTap,
+        Key key,
+        this.height: 46.0,
+        this.bottomString,
+        GetItemLabel getItemLabel})
       : getItemLabel = getItemLabel ?? defaultGetItemLabel,
         assert(titles != null && titles.length > 0),
         super(key: key, controller: controller);
@@ -65,33 +65,33 @@ class _DropdownHeaderState extends DropdownState<DropdownHeader> {
                   child: new Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                    new Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          getItemLabel(title),
-                          style: new TextStyle(
-                            color: selected ? primaryColor : unselectedColor,
-                          ),
-                        ),
-                        bottomS != null && index == 0
-                            ? Text("$bottomS",
+                        new Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              getItemLabel(title),
+                              style: new TextStyle(
+                                color: selected ? primaryColor : unselectedColor,
+                              ),
+                            ),
+                            bottomS != null && index == 0
+                                ? Text("$bottomS",
                                 style: new TextStyle(
                                   fontSize: 10,
                                   color: selected
                                       ? primaryColor
                                       : Color.fromRGBO(139, 137, 151, 1),
                                 ))
-                            : SizedBox(),
-                      ],
-                    ),
-                    new Icon(
-                      selected
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                      color: selected ? primaryColor : unselectedColor,
-                    )
-                  ])))),
+                                : SizedBox(),
+                          ],
+                        ),
+                        new Icon(
+                          selected
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_down,
+                          color: selected ? primaryColor : unselectedColor,
+                        )
+                      ])))),
       onTap: () {
         if (widget.onTap != null) {
           widget.onTap(index);
@@ -119,28 +119,28 @@ class _DropdownHeaderState extends DropdownState<DropdownHeader> {
   @override
   Widget build(BuildContext context) {
     List<Widget> list = [];
-
-    for (int i = 0, c = widget.titles.length; i < c; ++i) {
-      list.add(buildItem(context, widget.titles[i], widget.bottomString,
+    _titles = widget.titles;
+    for (int i = 0, c = _titles.length; i < c; ++i) {
+      list.add(buildItem(context, _titles[i], widget.bottomString,
           i == _activeIndex, i));
     }
 
     list = list.map((Widget widget) {
-      return new Expanded(
+      return Expanded(
         child: widget,
       );
     }).toList();
 
-    final Decoration decoration = new BoxDecoration(
-      border: new Border(
+    final Decoration decoration = BoxDecoration(
+      border: Border(
         bottom: Divider.createBorderSide(context),
       ),
     );
 
-    return new DecoratedBox(
+    return DecoratedBox(
       decoration: decoration,
       child: new SizedBox(
-          child: new Row(
+          child: Row(
             children: list,
           ),
           height: widget.height),
