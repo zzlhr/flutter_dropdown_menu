@@ -25,6 +25,9 @@ class DropdownHeader extends DropdownWidget {
   /// get label callback
   final GetItemLabel getItemLabel;
 
+  /// button show text
+  final String bottomString;
+
   DropdownHeader(
       {@required this.titles,
       this.activeIndex,
@@ -32,6 +35,7 @@ class DropdownHeader extends DropdownWidget {
       this.onTap,
       Key key,
       this.height: 46.0,
+      this.bottomString,
       GetItemLabel getItemLabel})
       : getItemLabel = getItemLabel ?? defaultGetItemLabel,
         assert(titles != null && titles.length > 0),
@@ -45,7 +49,7 @@ class DropdownHeader extends DropdownWidget {
 
 class _DropdownHeaderState extends DropdownState<DropdownHeader> {
   Widget buildItem(
-      BuildContext context, dynamic title, bool selected, int index) {
+      BuildContext context, dynamic title, String bottomS,bool selected, int index) {
     final Color primaryColor = Theme.of(context).primaryColor;
     final Color unselectedColor = Theme.of(context).unselectedWidgetColor;
     final GetItemLabel getItemLabel = widget.getItemLabel;
@@ -53,7 +57,7 @@ class _DropdownHeaderState extends DropdownState<DropdownHeader> {
     return new GestureDetector(
       behavior: HitTestBehavior.opaque,
       child: new Padding(
-          padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+          padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
           child: new DecoratedBox(
               decoration: new BoxDecoration(
                   border: new Border(left: Divider.createBorderSide(context))),
@@ -61,14 +65,23 @@ class _DropdownHeaderState extends DropdownState<DropdownHeader> {
                   child: new Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                    new Text(
-                      getItemLabel(title),
-                      style: new TextStyle(
-                        color: selected ? primaryColor : unselectedColor,
-                      ),
+                    new Column(
+                      mainAxisAlignment : MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          getItemLabel(title),
+                          style: new TextStyle(
+                            color: selected ? primaryColor : unselectedColor,
+                          ),
+                        ),
+                        bottomS != null&& index == 0?Text("$bottomS",style: new TextStyle(
+                          fontSize: 10,
+                          color: selected ? primaryColor : Color.fromRGBO(139, 137, 151, 1),
+                        )):SizedBox(),
+                      ],
                     ),
                     new Icon(
-                      selected ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                      selected ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                       color: selected ? primaryColor : unselectedColor,
                     )
                   ])))),
@@ -103,9 +116,9 @@ class _DropdownHeaderState extends DropdownState<DropdownHeader> {
     final int activeIndex = _activeIndex;
     final List<dynamic> titles = _titles;
     final double height = widget.height;
-
+    final String bottomString =widget.bottomString;
     for (int i = 0, c = widget.titles.length; i < c; ++i) {
-      list.add(buildItem(context, titles[i], i == activeIndex, i));
+      list.add(buildItem(context, titles[i],bottomString, i == activeIndex, i));
     }
 
     list = list.map((Widget widget) {
