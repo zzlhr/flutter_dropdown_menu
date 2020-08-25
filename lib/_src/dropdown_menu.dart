@@ -179,8 +179,8 @@ class _DropdownMenuState extends DropdownState<DropdownMenu>
 
     container = new BackdropFilter(
         filter: new ui.ImageFilter.blur(
-          sigmaY: widget.blur,
-          sigmaX: widget.blur,
+          sigmaY: widget.blur ?? 1,
+          sigmaX: widget.blur ?? 1,
         ),
         child: container);
 
